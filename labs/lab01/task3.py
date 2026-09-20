@@ -64,7 +64,7 @@ def task3():
                 try:
                     os.makedirs(DATA_DIR, exist_ok=True)
                     existing_logs = []
-                    if os.path.exists(LOG_JSON_PATH):
+                    if os.path.exists(LOG_JSON_PATH) and os.path.getsize(LOG_JSON_PATH) > 0:
                         with open(LOG_JSON_PATH, mode="r", encoding="utf_8") as jf:
                             try:
                                 existing_logs = json.load(jf)
@@ -73,11 +73,12 @@ def task3():
                             except json.decoder.JSONDecodeError:
                                 existing_logs = []
 
-                            existing_logs.append(log_record)
-                            with open(LOG_JSON_PATH, mode="w", encoding="utf_8") as jf:
-                                json.dump(
-                                    existing_logs, jf, ensure_ascii=False, indent=4
-                                )
+                    existing_logs.append(log_record)
+                    with open(LOG_JSON_PATH, mode="w", encoding="utf_8") as jf:
+                        json.dump(
+                            existing_logs, jf, ensure_ascii=False, indent=4
+                        )
+
                 except (OSError, PermissionError) as log_error:
                     print(log_error)
 
