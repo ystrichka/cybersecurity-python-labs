@@ -130,40 +130,36 @@ def task3():
         ("user_9", "U3_do_1t1!weLL"),
         ("user_10", "co11apse&the323Speed"),
     )
+    print("-" * 70)
+    print(f"Студент: {STUDENT_NAME} ({GROUP_NAME}) | Варіант: {VARIANT_NUMBER}")
 
-    def main():
+    try:
+        create_users(users_to_register)
+
+        print("База даних користувачів")
+        users_list = read_users()
+        print(f"{'№':<3} | {'Username':<18} | {'Hashed password':<34}")
         print("-" * 70)
-        print(f"Студент: {STUDENT_NAME} ({GROUP_NAME}) | Варіант: {VARIANT_NUMBER}")
+        for i, entry in enumerate(users_list, 1):
+            print(f"{i:<3} | {entry['username']:<18} | {entry['password_hash']:<34}")
 
-        try:
-            create_users(users_to_register)
+        print("Автентифікація користувачів")
+        test_cases = [
+            ("user_10", "co11apse&the323Speed", "Правильний логін і пароль"),
+            ("user_12", "WrongPassword1", "Неправильний пароль"),
+            ("unknown_user", "SomeSecret123", "Неіснуючий користувач"),
+        ]
 
-            print("База даних користувачів")
-            users_list = read_users()
-            print(f"{'№':<3} | {'Username':<18} | {'Hashed password':<34}")
-            print("-" * 70)
-            for i, entry in enumerate(users_list, 1):
-                print(
-                    f"{i:<3} | {entry['username']:<18} | {entry['password_hash']:<34}"
-                )
-
-            print("Автентифікація користувачів")
-            test_cases = [
-                ("user_10", "co11apse&the323Speed", "Правильний логін і пароль"),
-                ("user_12", "WrongPassword1", "Неправильний пароль"),
-                ("unknown_user", "SomeSecret123", "Неіснуючий користувач"),
-            ]
-
-            for u_name, pwd, description in test_cases:
-                is_auth = login(u_name, pwd, users_list=users_list)
-                status = "success" if is_auth else "fail"
-                print(f"({description}): user = '{u_name}' -> {status}")
-        except (OSError, FileNotFoundError, PermissionError) as file_error:
-            print(file_error)
-        except (ValidationError, ValueError) as val_error:
-            print(val_error)
-        except Exception as error:
-            print(error)
+        for u_name, pwd, description in test_cases:
+            is_auth = login(u_name, pwd, users_list=users_list)
+            status = "success" if is_auth else "fail"
+            print(f"({description}): user = '{u_name}' -> {status}")
+    except (OSError, FileNotFoundError, PermissionError) as file_error:
+        print(file_error)
+    except (ValidationError, ValueError) as val_error:
+        print(val_error)
+    except Exception as error:
+        print(error)
 
 
 if __name__ == "__main__":
