@@ -77,27 +77,27 @@ def task2():
         else:
             return "DENY", "Insufficient clearance"
 
-    def main():
-        print(f"{STUDENT_NAME} {GROUP_NAME} {VARIANT_NUMBER}")
-        print("-" * 70)
-        print(
-            f"{'№':<3} | {'Ресурс':<26} | {'Рівень(код)':<13} | {'Рівень(назва)':<20}"
-        )
-        print("-" * 70)
-        for i, (res_name, res_lvl) in enumerate(resources, 1):
-            lvl_name = get_level(res_lvl)
-            print(f"{i:<3} | {res_name:<26} | {res_lvl:<13} | {lvl_name:<20}")
+    print(f"{STUDENT_NAME} {GROUP_NAME} {VARIANT_NUMBER}")
+    print("-" * 70)
+    print(
+        f"{'№':<3} | {'Ресурс':<26} | {'Рівень(код)':<13} | {'Рівень(назва)':<20}"
+    )
+    print("-" * 70)
+    for i, (res_name, res_lvl) in enumerate(resources, 1):
+        lvl_name = get_level(res_lvl)
+        print(f"{i:<3} | {res_name:<26} | {res_lvl:<13} | {lvl_name:<20}")
 
-        for username in users:
-            print(f"\n[Користувач: {username}]")
-            for res_name, res_lvl in resources:
-                status, reason = check_access(username, res_lvl)
-                if status == "ALLOW":
-                    result = "ALLOW"
-                else:
-                    result = f"DENY({reason})"
+    for username in users:
+        print(f"\n[Користувач: {username}]")
+        for res_name, res_lvl in resources:
+            status, reason = check_access(username, res_lvl)
+            if status == "ALLOW":
+                result = "ALLOW"
+            else:
+                result = f"DENY({reason})"
 
-            print(f"user={username:<18} resource={res_name:<24} {result}")
+            print(f"user={username:<18} resource={res_name:<24} -> {result}")
 
-    if __name__ == "__main__":
-        task2()
+if __name__ == "__main__":
+    task2()
+
