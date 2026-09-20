@@ -27,7 +27,7 @@ def task3():
 
     def generate_hash(password, salt):
         if not password or not salt:
-            raise ValidationError("Пароль та сіль не можуть бути порожніми")
+            raise ValueError("Пароль та сіль не можуть бути порожніми")
 
         if len(password) < MIN_PASSWORD_LENGTH:
             raise ValidationError(
@@ -40,16 +40,16 @@ def task3():
     def log_event(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            username = args[0] if len(args) > 0 else kwargs.get("username", "unknown")
+            username = (args[0] if len(args) > 0 else kwargs.get("username", "unknown"))
 
-            result = "fail"
+            result = "failure"
             try:
                 success = func(*args, **kwargs)
                 if success:
                     result = "success"
                 return success
             except Exception:
-                result = "fail"
+                result = "failure"
                 raise
             finally:
                 log_record = {
